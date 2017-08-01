@@ -222,25 +222,25 @@ function initializeCheckboxClickEvents() {
 
     $("#checkbox2").click(function () {
         document.cookie = "checkbox2=" + $("#checkbox2").is(':checked') + "; expires=Thu, 18 Dec 2030 12:00:00 UTC";
-            if ($(this).is(":checked")) {
-                if (map !== undefined) {
-                    map.setOptions({styles: darkMapStyle});
-                }
-
-                setUpDarkMode();
+        if ($(this).is(":checked")) {
+            if (map !== undefined) {
+                map.setOptions({styles: darkMapStyle});
             }
-            else {
-                if (map !== undefined) {
-                    map.setOptions({styles: []});
-                }
-                $('body').css("background", "white").css("color", "#222");
-                $("#address-dropdown-button, #x_button").css("background", "#CCC").css("border-left", "1px solid #000090");
-                $("#input-textbox, #address-table-content").css("background", "#f9f9f9").css("color", "#222");
-                $("#input-container").css("border", "2px solid #000090");
-                $("#settings-bar").css("border-top", "2px solid black").css("background", "#CCC");
-                $("#expand-settings-button").css("color", "#4d67ff");
 
+            setUpDarkMode();
+        }
+        else {
+            if (map !== undefined) {
+                map.setOptions({styles: []});
             }
+            $('body').css("background", "white").css("color", "#222");
+            $("#address-dropdown-button, #x_button").css("background", "#CCC").css("border-left", "1px solid #000090");
+            $("#input-textbox, #address-table-content").css("background", "#f9f9f9").css("color", "#222");
+            $("#input-container").css("border", "2px solid #000090");
+            $("#settings-bar").css("border-top", "2px solid black").css("background", "#CCC");
+            $("#expand-settings-button").css("color", "#4d67ff");
+
+        }
     });
 
     $("#checkbox3").click(function () {
@@ -324,8 +324,6 @@ function initAutocomplete() {
 
     // When the user selects an address from the dropdown, populate the address fields in the form.
     autocomplete.addListener('place_changed', function () {
-
-        $("#spinner").show();
         fetchResults();
     });
 
@@ -340,11 +338,12 @@ function fetchResults() {
     var place = autocomplete.getPlace();
 
     if (place.hasOwnProperty("address_components")) {
-        //make result text visible again as it's possibly hidden at this point
-        document.getElementById("result").style.visibility = "visible";
 
+        $("#spinner").show();
+        $("#map").css("visibility", "hidden");
+        $(".gmaps-label").hide();
         $("#address-dropdown-button").show();
-        $("#result").show();
+        $("#result").show().css("visibility", "visible");
         $("#notes").hide();
 
 
@@ -404,10 +403,10 @@ function getLatlong() {
 function biasResultsToDeliveryArea() {
     var rectangle = new google.maps.Rectangle({
         bounds: {
-            north: 33.531,
-            south: 33.429,
-            east: -111.891,
-            west: -112.004  }
+            north: 33.596,
+            south: 33.433,
+            east: -111.874,
+            west: -111.987  }
 
     });
 
@@ -416,6 +415,7 @@ function biasResultsToDeliveryArea() {
 
 //Uses latitude and longitude of entered address (already geocoded at this point) to place a marker on the map
 function initMap(latitude, longitude) {
+
 
     $("#spinner").hide();
 
