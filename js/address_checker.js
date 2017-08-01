@@ -218,6 +218,15 @@ function initializeCheckboxClickEvents() {
 
     $("#checkbox1").click(function () {
         document.cookie = "checkbox1=" + $("#checkbox1").is(':checked') + "; expires=Thu, 18 Dec 2030 12:00:00 UTC";
+        if (map !== undefined) {
+            map.setCenter(marker.getPosition());
+            if ($(this).is(":checked")) {
+                map.setZoom(17);
+            }
+            else {
+                map.setZoom(12);
+            }
+        }
     });
 
     $("#checkbox2").click(function () {
