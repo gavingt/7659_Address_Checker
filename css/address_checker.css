@@ -156,6 +156,7 @@ html {
     display: none;
     align-items: center;
     font-size: 13pt;
+    outline: none;
 }
 
 #x_button {
